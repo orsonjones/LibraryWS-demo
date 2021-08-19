@@ -5,10 +5,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BookService {
-    private Map<Integer, Book> books = new HashMap<>();
+    private final Map<Integer, Book> books = new HashMap<>();
+    private int nextId = 0;
 
     public Map<Integer, Book> getAllBooks() {
         return Map.copyOf(books);
+    }
+    
+    public int addBook(Book book) {
+        int bookId = nextId++;
+        books.put(bookId, book);
+        return bookId;
     }
 
     public Book getBook(int id) {
@@ -16,6 +23,11 @@ public class BookService {
     }
 
     public void setBook(int id, Book book) {
-        books.put(id, book);
+        if (books.containsKey(id))
+            books.put(id, book);
+    }
+    
+    public void removeBook(int id) {
+        books.remove(id);
     }
 }
